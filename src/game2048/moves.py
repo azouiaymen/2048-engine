@@ -50,3 +50,28 @@ def move_right(board):
         new_board.append(move_row_right(row))
 
     return new_board
+
+def transpose(board):
+    transposed = []
+
+    for column in range(BOARD_SIZE):
+        new_row = []
+
+        for row in range(BOARD_SIZE):
+            new_row.append(board[row][column])
+
+        transposed.append(new_row)
+
+    return transposed
+
+
+def move_up(board):
+    transposed = transpose(board)
+    moved = move_left(transposed)
+    return transpose(moved)
+
+
+def move_down(board):
+    transposed = transpose(board)
+    moved = move_right(transposed)
+    return transpose(moved)
