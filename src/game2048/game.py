@@ -18,3 +18,44 @@ def play_move(board, direction):
         return board
 
     return add_random_tile(moved_board)
+
+
+
+def has_won(board):
+    for row in board:
+        for cell in row:
+            if cell is not None and cell >= 2048:
+                return True
+
+    return False
+
+def has_available_move(board):
+    # If there is an empty cell, the game is not over
+    for row in board:
+        if None in row:
+            return True
+
+    # Board is full, so check whether any direction can still change it
+    if move_left(board) != board:
+        return True
+
+    if move_right(board) != board:
+        return True
+
+    if move_up(board) != board:
+        return True
+
+    if move_down(board) != board:
+        return True
+
+    return False
+
+
+def get_game_status(board):
+    if has_won(board):
+        return "won"
+
+    if not has_available_move(board):
+        return "lost"
+
+    return "playing"
