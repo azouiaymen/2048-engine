@@ -24,3 +24,25 @@ def create_board():
             placed += 1
 
     return board
+
+
+def add_random_tile(board):
+    new_board = []
+
+    for row in board:
+        new_board.append(row.copy())
+
+    empty_cells = []
+
+    for row in range(BOARD_SIZE):
+        for column in range(BOARD_SIZE):
+            if new_board[row][column] is None:
+                empty_cells.append((row, column))
+
+    if not empty_cells:
+        return new_board
+
+    row, column = random.choice(empty_cells)
+    new_board[row][column] = random.choice([2, 4])
+
+    return new_board
