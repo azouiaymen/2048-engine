@@ -35,3 +35,18 @@ def move_left(board):
         new_board.append(move_row_left(row))
 
     return new_board
+
+
+def move_row_right(row):
+    reversed_row = list(reversed(row))
+    moved_row = move_row_left(reversed_row)
+    return list(reversed(moved_row))
+
+
+def move_right(board):
+    new_board = []
+
+    for row in board:
+        new_board.append(move_row_right(row))
+
+    return new_board
