@@ -1,13 +1,26 @@
 from game2048.ai import suggest_move
-from openai import OpenAI
+import game2048.ai as ai
+from types import SimpleNamespace
 
-def test_ai_suggests_a_valid_move():
+
+def test_ai_suggests_a_valid_move(monkeypatch):
     board = [
         [None, 2, None, None],
         [None, None, None, None],
         [None, None, None, None],
         [None, None, None, None],
     ]
+
+    monkeypatch.setenv("OPENAI_API_KEY", "test-key")
+
+    response = SimpleNamespace(output_text="left")
+    client = SimpleNamespace(
+        responses=SimpleNamespace(
+            create=lambda **kwargs: response
+        )
+    )
+
+    monkeypatch.setattr(ai, "OpenAI", lambda api_key: client)
 
     suggestion = suggest_move(board)
 

@@ -29,9 +29,13 @@ def update_suggestion():
         st.session_state.suggestion = None
 
 
+def ask_ai():
+    update_suggestion()
+
+
 def new_game():
     st.session_state.board = create_board()
-    update_suggestion()
+    st.session_state.suggestion = None
 
 
 def make_move(direction):
@@ -43,7 +47,7 @@ def make_move(direction):
         direction,
     )
 
-    update_suggestion()
+    st.session_state.suggestion = None
 
 
 def play_ai_move():
@@ -60,7 +64,7 @@ def play_ai_move():
         direction,
     )
 
-    update_suggestion()
+    st.session_state.suggestion = None
 
 
 if "board" not in st.session_state:
@@ -171,14 +175,22 @@ else:
             f"Recommended move: **{icon} {suggestion.upper()}**"
         )
 
-    st.button(
-        "▶ Play AI suggestion",
-        on_click=play_ai_move,
-        width="stretch",
-        shortcut="Space",
-        type="primary",
-        help="Press Space to play the current AI recommendation",
-    )
+    if suggestion:
+        st.button(
+            "▶ Play AI suggestion",
+            on_click=play_ai_move,
+            width="stretch",
+            shortcut="Space",
+            type="primary",
+            help="Press Space to play the current AI recommendation",
+        )
+    else:
+        st.button(
+            "🤖 Ask AI for best move",
+            on_click=ask_ai,
+            width="stretch",
+            type="primary",
+        )
 
     st.caption("Press Space to play the recommended move.")
 
@@ -196,7 +208,6 @@ else:
             After the move:
             - the game generates a new tile,
             - the board is updated,
-            - and the AI automatically calculates the next recommendation.
 
             You can also press **Space** instead of clicking the button.
             """
